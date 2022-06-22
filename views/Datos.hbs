@@ -1,0 +1,92 @@
+<div class='py-4'>
+	<h2>Datos del perfil</h2>
+	<hr class='w-50' />
+
+	<form id="form">
+		<div class='form-group row w-50 m-auto'>
+		{{#each user}}
+			<div class='form-group col-12 col-sm-6'>
+				<label>Email</label>
+				<input
+					class='form-control m-auto'
+					disabled
+					value={{this.email}}
+					id="email"
+				/>
+			</div>
+			<div class='form-group col-12 col-sm-6'>
+				<label>Nombre</label>
+				<input class='form-control m-auto' value={{this.nombre}} id="nombre" />
+			</div>
+			<div class='form-group col-12 col-sm-6'>
+				<label>Password</label>
+				<input type='password' class='form-control m-auto' value={{this.password}} id="pass" />
+			</div>
+			<div class='form-group col-12 col-sm-6'>
+				<label>Repita la password</label>
+				<input type='password' class='form-control m-auto' value="" id="pass2"/>
+			</div>
+			<div class='form-group col-12 col-sm-6'>
+				<label>Años de experiencia</label>
+				<input class='form-control m-auto' value={{this.anos_experiencia}} id="anos"/>
+			</div>
+			<div class='form-group col-12 col-sm-6'>
+				<label>Especialidad</label>
+				<input class='form-control m-auto' value={{this.especialidad}} id="esp"/>
+			</div>
+			<div class='form-group col-12 col-sm-6'>
+				<label>ID</label>
+				<input class='form-control m-auto' value={{this.id}} id="id"/>
+			</div>
+		{{/each}}
+		</div>
+		<div class='mb-1'>
+			<button class='btn btn-primary' type="submit">Actualizar</button>
+		</div>
+		<div>
+			<button class='btn btn-danger' id="delete">Eliminar cuenta</button>
+		</div>
+	</form>
+</div>
+
+<script>
+	alert('hola')
+	const email = document.getElementById('email');
+	const nombre = document.getElementById('nombre');
+	const password = document.getElementById('pass');
+	const passwordConfirm = document.getElementById('pass2');
+	const anos = document.getElementById('anos');
+	const esp = document.getElementById('esp');
+	const id = document.getElementById('id');
+
+	const form = document.getElementById('form');
+	const deleteBtn = document.getElementById('delete');
+
+	form.addEventListener('submit',async(e)=>{
+		e.preventDefault()
+		if(password.value !== passwordConfirm.value){
+			alert('Las contraseñas no coinciden')
+			return
+		}
+		const data = {
+			email: email.value,
+			nombre: nombre.value,
+			password: password.value,
+			anos_experiencia: anos.value,
+			especialidad: esp.value,
+			id: id.value
+
+		}
+		const dato = await axios.put(`http://localhost:3000/api/v1/skaters/${data.id}`,data)
+		window.location.href = '/'
+	})
+
+	deleteBtn.addEventListener('click',async(e)=>{
+		e.preventDefault()
+		const data = {
+			id: id.value
+		}
+		const dato = await axios.delete(`http://localhost:3000/api/v1/skaters/${data.id}`)
+		window.location.href = '/'
+	})
+</script>
