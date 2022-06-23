@@ -26,27 +26,5 @@
 			{{/each}}
 		</tbody>
 	</table>
+	<a href="/">Pagina Inicio</a>
 </div>
-
-<script>
-	const checkbox = document.querySelectorAll('.check');
-	checkbox.forEach((check)=>{
-		check.addEventListener('click', async(e)=> {
-		const id = e.target.dataset.id;
-		console.log(e.target.checked)
-		const estado = e.target.checked
-		const data = {
-			id: id,
-			estado: estado
-		};
-		await fetch('http://localhost:3000/check', {
-			method: 'PUT',
-			body: JSON.stringify(data),
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-	});
-	})
-	
-</script>

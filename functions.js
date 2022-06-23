@@ -1,5 +1,11 @@
 require('dotenv').config()
-const { skatersGet, skaterPost, skaterPut, skaterDelete, checker } = require('./queries')
+const {
+	skatersGet,
+	skaterPost,
+	skaterPut,
+	skaterDelete,
+	checker,
+} = require('./queries')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
@@ -20,8 +26,7 @@ const postSkater = async (req, res) => {
 	foto.mv(`${__dirname}/img/${name}`)
 	try {
 		const hashedPassword = await bcrypt.hash(password, 10)
-		const data = await skaterPost(skater, name, hashedPassword)
-		// res.json(data)
+		await skaterPost(skater, name, hashedPassword)
 		res.redirect('/')
 	} catch (error) {
 		console.log(error)
@@ -40,7 +45,7 @@ const putSkater = async (req, res) => {
 }
 
 const putCheck = async (req, res) => {
-	const {id, estado} = req.body
+	const { id, estado } = req.body
 	try {
 		const data = await checker(id, estado)
 		res.json(data)
@@ -107,8 +112,22 @@ const dato = (req, res) => {
 					message: err.message,
 			  })
 			: res.render('Datos', {
-				user: user,
-			})
+					user: [user],
+			  })
+	})
+}
+
+const dato2 = (req, res) => {
+	let { token } = req.query
+	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+		err
+			? res.status(401).send({
+					error: '401 Unauthorized',
+					message: err.message,
+			  })
+			: res.render('Admin', {
+					user: [user],
+			  })
 	})
 }
 
@@ -121,4 +140,5 @@ module.exports = {
 	authToken,
 	dato,
 	putCheck,
+	dato2,
 }

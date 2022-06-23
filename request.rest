@@ -1,0 +1,12 @@
+post http://localhost:3000/auth
+Content-Type: application/json
+
+{
+  "email": "mail@mail.cl",
+  "password": "password"
+}
+
+###
+
+GET http://localhost:3000/datos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDQsImVtYWlsIjoibWFpbEBtYWlsLmNsIiwibm9tYnJlIjoiYXNkIiwicGFzc3dvcmQiOiIkMmIkMTAkU0NPRjV3SklDbjRzb1ZROG5OMlZ6TzFTSTA2NVNxTnM2dVZlYXYyOXFINTlSbVVKVFM5d3kiLCJhbm9zX2V4cGVyaWVuY2lhIjozLCJlc3BlY2lhbGlkYWQiOiJlc3BlY2lhbCIsImZvdG8iOiIxLmpwZyIsImVzdGFkbyI6ZmFsc2UsImlhdCI6MTY1NTkzMTg4MiwiZXhwIjoxNjU1OTMyNDgyfQ.z-OcEG83DvWPnGy8VfN0YI9xAYyrE2D2tlkzIgaGuSQ
