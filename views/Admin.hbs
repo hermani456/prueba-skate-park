@@ -21,7 +21,7 @@
 				<td>{{this.nombre}}</td>
 				<td>{{this.anos_experiencia}}</td>
 				<td>{{this.especialidad}}</td>
-				<td><input type='checkbox' class="check" data-mail={{this.mail}}></td>
+				<td><input type='checkbox' {{#if this.estado}} checked {{/if}} class="check" data-id={{this.id}}></td>
 			</tr>
 			{{/each}}
 		</tbody>
@@ -32,11 +32,11 @@
 	const checkbox = document.querySelectorAll('.check');
 	checkbox.forEach((check)=>{
 		check.addEventListener('click', async(e)=> {
-		const mail = e.target.dataset.mail;
+		const id = e.target.dataset.id;
 		console.log(e.target.checked)
 		const estado = e.target.checked
 		const data = {
-			mail: mail,
+			id: id,
 			estado: estado
 		};
 		await fetch('http://localhost:3000/check', {

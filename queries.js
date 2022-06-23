@@ -35,10 +35,11 @@ const skaterPut = async (skater, id) => {
    }
 }
 
-const checker = async (email, estado) => {
+const checker = async (id, estado) => {
+   console.log(id, estado)
    try {
-      const query = 'UPDATE skaters SET estado = $2 WHERE email = $1 RETURNING *'
-      const values = [email, estado]
+      const query = 'UPDATE skaters SET estado = $2 WHERE id = $1 RETURNING *'
+      const values = [id, estado]
       const result = await pool.query(query, values)
       return result.rows
    } catch (error) {

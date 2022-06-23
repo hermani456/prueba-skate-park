@@ -40,9 +40,9 @@ const putSkater = async (req, res) => {
 }
 
 const putCheck = async (req, res) => {
-	const {email, estado} = req.body
+	const {id, estado} = req.body
 	try {
-		const data = await checker(email, estado)
+		const data = await checker(id, estado)
 		res.json(data)
 	} catch (error) {
 		console.log(error)
