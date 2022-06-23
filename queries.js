@@ -26,8 +26,19 @@ const skaterPut = async (skater, id) => {
    console.log(skater)
    const { email, nombre, password, anos_experiencia, especialidad, foto, estado } = skater
    try {
-      const query = 'UPDATE skaters SET email = $1, nombre = $2, password = $3, anos_experiencia = $4, especialidad = $5, foto = $6, estado = $7 WHERE id = $8 RETURNING *'
-      const values = [email, nombre, password, anos_experiencia, especialidad, foto, estado, id]
+      const query = 'UPDATE skaters SET email = $1, nombre = $2, password = $3, anos_experiencia = $4, especialidad = $5 WHERE id = $6 RETURNING *'
+      const values = [email, nombre, password, anos_experiencia, especialidad, id]
+      const result = await pool.query(query, values)
+      return result.rows
+   } catch (error) {
+      console.log(error)
+   }
+}
+
+const checker = async (email, estado) => {
+   try {
+      const query = 'UPDATE skaters SET estado = $2 WHERE email = $1 RETURNING *'
+      const values = [email, estado]
       const result = await pool.query(query, values)
       return result.rows
    } catch (error) {
@@ -46,4 +57,4 @@ const skaterDelete = async (id) => {
    }
 }
 
-module.exports = { skatersGet, skaterPost, skaterPut, skaterDelete }
+module.exports = { skatersGet, skaterPost, skaterPut, skaterDelete, checker }

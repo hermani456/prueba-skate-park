@@ -36,7 +36,7 @@
 			</div>
 			<div class='form-group col-12 col-sm-6'>
 				<label>ID</label>
-				<input class='form-control m-auto' value={{this.id}} id="id"/>
+				<input class='form-control m-auto' value={{this.id}} id="id" disabled/>
 			</div>
 		{{/each}}
 		</div>
@@ -50,7 +50,6 @@
 </div>
 
 <script>
-	alert('hola')
 	const email = document.getElementById('email');
 	const nombre = document.getElementById('nombre');
 	const password = document.getElementById('pass');
@@ -64,10 +63,6 @@
 
 	form.addEventListener('submit',async(e)=>{
 		e.preventDefault()
-		if(password.value !== passwordConfirm.value){
-			alert('Las contraseñas no coinciden')
-			return
-		}
 		const data = {
 			email: email.value,
 			nombre: nombre.value,
@@ -75,7 +70,6 @@
 			anos_experiencia: anos.value,
 			especialidad: esp.value,
 			id: id.value
-
 		}
 		const dato = await axios.put(`http://localhost:3000/api/v1/skaters/${data.id}`,data)
 		window.location.href = '/'

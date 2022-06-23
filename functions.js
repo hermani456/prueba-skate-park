@@ -1,5 +1,5 @@
 require('dotenv').config()
-const { skatersGet, skaterPost, skaterPut, skaterDelete } = require('./queries')
+const { skatersGet, skaterPost, skaterPut, skaterDelete, checker } = require('./queries')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
@@ -39,6 +39,16 @@ const putSkater = async (req, res) => {
 	}
 }
 
+const putCheck = async (req, res) => {
+	const {email, estado} = req.body
+	try {
+		const data = await checker(email, estado)
+		res.json(data)
+	} catch (error) {
+		console.log(error)
+	}
+}
+
 const deleteSkater = async (req, res) => {
 	const { id } = req.params
 	try {
@@ -50,7 +60,6 @@ const deleteSkater = async (req, res) => {
 }
 
 const authLogin = async (req, res) => {
-	console.log(req.body)
 	const { email, password } = req.body
 	const users = await skatersGet()
 	const user = users.find((user) => user.email === email)
@@ -64,6 +73,7 @@ const authLogin = async (req, res) => {
 			})
 			res.send(`
 <a href="/datos?token=${accessToken}"> <p> Ir al Dashboard </p> </a>
+<a href="/admin?token=${accessToken}"> <p> Ir a pagina de administrador </p> </a>
 Bienvenido, ${email}.
 <script>
 localStorage.setItem('token', JSON.stringify("${accessToken}"))
@@ -110,4 +120,5 @@ module.exports = {
 	authLogin,
 	authToken,
 	dato,
+	putCheck,
 }

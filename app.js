@@ -11,6 +11,7 @@ const {
 	authLogin,
 	authToken,
 	dato,
+	putCheck,
 } = require('./functions')
 const { skatersGet } = require('./queries')
 const jwt = require('jsonwebtoken')
@@ -85,12 +86,24 @@ app.get('/datos', (req, res) => {
 }
 )
 
+app.get('/admin', (req, res) => {
+	let { token } = req.query
+	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+		err
+			? res.status(401).send({
+					error: '401 Unauthorized',
+					message: err.message,
+			  })
+			: res.render('Admin', {
+				user: [user],
+			})
+			console.log(user)
+	})
+}
+)
+
 app.get('/login', (req, res) => {
 	res.render('Login')
-})
-
-app.get('/admin', (req, res) => {
-	res.render('Admin')
 })
 
 app.get('/', async (req, res) => {
@@ -101,6 +114,8 @@ app.get('/', async (req, res) => {
 })
 
 app.post('/auth', authLogin)
+
+app.put('/check', putCheck)
 
 app.listen(port, () =>
 	console.log(`Server running at http://localhost:${port}`)
